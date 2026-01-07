@@ -10,24 +10,58 @@ services:
       - .env  
     depends_on:
       - redis
+      - nominatim
+      - marqo
     restart: unless-stopped
     networks:
       - oannetwork
 
   redis:
-    image: redis:alpine
+    image: redis/redis-stack:latest
     container_name: oan_redis
     ports:
       - "6379:6379"
+      - "8001:8001"
     volumes:
       - redis_data:/data
     restart: unless-stopped
     networks:
       - oannetwork
 
+  nominatim:
+    image: mediagis/nominatim:5.1
+    container_name: nominatim
+    shm_size: 4g 
+    mem_limit: 8g 
+    cpus: 4.0 
+    environment:
+      - PBF_URL=https://download.geofabrik.de/asia/india-latest.osm.pbf
+      - REPLICATION_URL=https://download.geofabrik.de/asia/india-updates/
+    volumes:
+      - nominatim-data:/var/lib/postgresql/16/main
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    networks:
+      - oannetwork
+
+  marqo:
+    image: marqoai/marqo:latest
+    container_name: marqo
+    ports:
+      - "8882:8882"
+    environment:
+      - MARQO_MAX_CONCURRENT_SEARCH=50
+      - VESPA_POOL_SIZE=50
+    restart: unless-stopped
+    networks:
+      - oannetwork
+
 volumes:
   redis_data:
+  nominatim-data:
+    driver: local
 
 networks:
   oannetwork:
-    external: true
+    driver: bridge
