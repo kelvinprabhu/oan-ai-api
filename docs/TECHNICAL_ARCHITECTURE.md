@@ -19,7 +19,8 @@ The system relies on various external services. Keys are managed via environment
 | **vLLM Endpoint** | `INFERENCE_ENDPOINT_URL` | URL for the self-hosted LLM inference server. | If `LLM_PROVIDER=vllm` | Your internal vLLM deployment admin. |
 | **Vector DB** | `MARQO_ENDPOINT_URL` | URL of the Marqo vector database instance. | **Yes** | Self-hosted or Marqo Cloud. |
 | **Vector DB** | `MARQO_INDEX_NAME` | Name of the Marqo index (e.g., `oan-index`). | **Yes** | Created during Marqo setup. |
-| **Mapbox** | `MAPBOX_API_TOKEN` | Geocoding (Address <-> Coordinates). | **Yes** | [Mapbox Dashboard](https://account.mapbox.com/). |
+| **Nominatim** | `N/A` (Self-hosted) | Primary Geocoding (Address <-> Coordinates). Self-hosted for privacy & speed. | **Yes** | [Detailed Info](INFRASTRUCTURE_COMPONENTS.md) |
+| **Mapbox** | `MAPBOX_API_TOKEN` | Fallback / Frontend Maps. | Optional | [Mapbox Dashboard](https://account.mapbox.com/). |
 | **Beckn Protocol** | `BAP_ID` | Application ID for ONDC/Beckn network. | **Yes** | ONDC/Beckn Registry. |
 | **Beckn Protocol** | `BAP_URI` | Callback URI for ONDC/Beckn network. | **Yes** | Your public callback URL. |
 | **Beckn Protocol** | `BAP_ENDPOINT` | Gateway endpoint for Agri services (mandi, weather). | **Yes** | ONDC/Beckn Network Provider. |
