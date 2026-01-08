@@ -57,7 +57,9 @@ def search_documents(
     # Initialize Marqo client
     endpoint_url = os.getenv('MARQO_ENDPOINT_URL')
     if not endpoint_url:
-        raise ValueError("Marqo endpoint URL is required")
+        # raise ValueError("Marqo endpoint URL is required")
+        logger.warning("Marqo endpoint URL is not set. Search integration is incomplete.")
+        return "Search integration is yet to complete. Please configure the Marqo endpoint."
     
     index_name = os.getenv('MARQO_INDEX_NAME', 'oan-index')
     if not index_name:
