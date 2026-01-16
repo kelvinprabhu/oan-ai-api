@@ -3,6 +3,8 @@ from pydantic_ai.models.openai import OpenAIModel
 from pydantic_ai.models.gemini import GeminiModel
 from pydantic_ai.providers.openai import OpenAIProvider
 from pydantic_ai.providers.google_gla import GoogleGLAProvider
+from pydantic_ai.models.groq import GroqModel
+from pydantic_ai.providers.groq import GroqProvider
 from dotenv import load_dotenv
 from helpers.utils import get_logger
 
@@ -10,8 +12,10 @@ load_dotenv()
 logger = get_logger(__name__)
 
 # Get configurations from environment variables
-LLM_PROVIDER = os.getenv('LLM_PROVIDER', 'gemini').lower()
-LLM_MODEL_NAME = os.getenv('LLM_MODEL_NAME', 'gemini-2.0-flash')
+# LLM_PROVIDER = os.getenv('LLM_PROVIDER', 'gemini').lower()
+# LLM_MODEL_NAME = os.getenv('LLM_MODEL_NAME', 'gemini-2.0-flash')
+LLM_PROVIDER = os.getenv('LLM_PROVIDER', 'grok').lower()
+LLM_MODEL_NAME = os.getenv('LLM_MODEL_NAME', 'llama-3.3-70b-versatile')
 
 # Debug logging
 logger.info(f"LLM_PROVIDER loaded: '{LLM_PROVIDER}'")
@@ -25,6 +29,11 @@ if LLM_PROVIDER == 'gemini':
             api_key=os.getenv('GEMINI_API_KEY'),
         )
     )
+elif LLM_PROVIDER == 'grok':
+    LLM_MODEL = GroqModel(
+    'llama-3.3-70b-versatile',
+    provider=GroqProvider(api_key=os.getenv('GROK_API_KEY')),
+)
 elif LLM_PROVIDER == 'vllm':
     LLM_MODEL = OpenAIModel(
         LLM_MODEL_NAME,

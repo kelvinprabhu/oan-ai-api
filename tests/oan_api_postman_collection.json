@@ -1,0 +1,279 @@
+{
+	"info": {
+		"_postman_id": "0ad4b9c5-1234-4567-8901-abcdef123456",
+		"name": "OAN AI API & Tools Test Suite",
+		"description": "Collection to test OAN AI Agent Chat and underlying Beckn Tool Mock endpoints. Focused on Tamil Nadu agricultural queries.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Agent Chat Interaction (LLM)",
+			"item": [
+				{
+					"name": "1. Greeting",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"query\": \"Hello, I am a farmer from Tamil Nadu.\",\n    \"source_lang\": \"en\",\n    \"target_lang\": \"en\",\n    \"user_id\": \"test_user_tn_01\",\n    \"session_id\": \"{{$guid}}\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/chat/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"chat",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2. Weather Query (Coimbatore)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"query\": \"What is the weather forecast for Coimbatore tomorrow?\",\n    \"source_lang\": \"en\",\n    \"target_lang\": \"en\",\n    \"user_id\": \"test_user_tn_01\",\n    \"session_id\": \"{{$guid}}\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/chat/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"chat",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3. Mandi Price Query (Tomato in Madurai)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"query\": \"What is the current market price of Tomato in Madurai mandi?\",\n    \"source_lang\": \"en\",\n    \"target_lang\": \"en\",\n    \"user_id\": \"test_user_tn_01\",\n    \"session_id\": \"{{$guid}}\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/chat/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"chat",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4. Scheme Query (General)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"query\": \"Are there any government schemes for small farmers in Tamil Nadu?\",\n    \"source_lang\": \"en\",\n    \"target_lang\": \"en\",\n    \"user_id\": \"test_user_tn_01\",\n    \"session_id\": \"{{$guid}}\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/chat/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"chat",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "5. Warehouse Query (Chennai)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"query\": \"Find me a warehouse near Chennai for storing rice.\",\n    \"source_lang\": \"en\",\n    \"target_lang\": \"en\",\n    \"user_id\": \"test_user_tn_01\",\n    \"session_id\": \"{{$guid}}\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/chat/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"chat",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Mock BAP Tool Validation",
+			"description": "Direct requests to the BAP Gateway Endpoint to verify the Mock Server is responding correctly to tool usage.",
+			"item": [
+				{
+					"name": "Mandi Price Search (Direct)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"context\": {\n    \"domain\": \"advisory:mh-vistaar\",\n    \"action\": \"search\",\n    \"location\": {\n      \"country\": {\n        \"name\": \"India\",\n        \"code\": \"IND\"\n      }\n    },\n    \"version\": \"1.1.0\",\n    \"bap_id\": \"oan-mock\",\n    \"bap_uri\": \"http://localhost:8000\",\n    \"message_id\": \"{{$guid}}\",\n    \"transaction_id\": \"{{$guid}}\",\n    \"timestamp\": \"{{$rubbish}}\"\n  },\n  \"message\": {\n    \"intent\": {\n      \"category\": {\n        \"descriptor\": {\n          \"code\": \"price-discovery\"\n        }\n      },\n      \"item\": {\n        \"descriptor\": {\n          \"code\": \"\"\n        }\n      },\n      \"fulfillment\": {\n        \"stops\": [\n          {\n            \"location\": {\n              \"gps\": \"11.0168, 76.9558\"\n            },\n            \"time\": {\n              \"range\": {\n                \"start\": \"2023-10-27T00:00:00Z\"\n              }\n            }\n          }\n        ]\n      }\n    }\n  }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/search",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Weather Search (Direct)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"context\": {\n    \"domain\": \"advisory:weather:mh-vistaar\",\n    \"action\": \"search\",\n    \"location\": {\n      \"country\": {\n        \"name\": \"India\",\n        \"code\": \"IND\"\n      }\n    },\n    \"version\": \"1.1.0\",\n    \"bap_id\": \"oan-mock\",\n    \"bap_uri\": \"http://localhost:8000\",\n    \"message_id\": \"{{$guid}}\",\n    \"transaction_id\": \"{{$guid}}\",\n    \"timestamp\": \"{{$rubbish}}\"\n  },\n  \"message\": {\n    \"intent\": {\n      \"category\": {\n        \"descriptor\": {\n          \"name\": \"Weather-Forecast\"\n        }\n      },\n      \"item\": {\n        \"time\": {\n          \"range\": {\n            \"start\": \"2023-10-27T00:00:00Z\",\n            \"end\": \"2023-11-01T00:00:00Z\"\n          }\n        }\n      },\n      \"fulfillment\": {\n        \"stops\": [\n          {\n            \"location\": {\n              \"gps\": \"13.0827, 80.2707\"\n            }\n          }\n        ]\n      }\n    }\n  }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/search",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Scheme Search (Direct)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"context\": {\n    \"domain\": \"schemes:oan\",\n    \"action\": \"search\",\n    \"version\": \"1.1.0\",\n    \"bap_id\": \"oan-mock\",\n    \"bap_uri\": \"http://localhost:8000\",\n    \"message_id\": \"{{$guid}}\",\n    \"transaction_id\": \"{{$guid}}\",\n    \"timestamp\": \"{{$rubbish}}\"\n  },\n  \"message\": {\n    \"intent\": {\n      \"category\": {\n        \"descriptor\": {\n          \"code\": \"schemes-agri\"\n        }\n      },\n      \"item\": {\n        \"descriptor\": {\n          \"name\": \"pmkisan\"\n        }\n      }\n    }\n  }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/search",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Warehouse Search (Direct)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"context\": {\n    \"domain\": \"advisory:mh-vistaar\",\n    \"location\": { \"country\": { \"name\": \"IND\" } },\n    \"action\": \"search\",\n    \"version\": \"1.1.0\",\n    \"bap_id\": \"oan-mock\",\n    \"bap_uri\": \"http://localhost:8000\",\n    \"message_id\": \"{{$guid}}\",\n    \"transaction_id\": \"{{$guid}}\",\n    \"timestamp\": \"{{$rubbish}}\"\n  },\n  \"message\": {\n    \"intent\": {\n      \"category\": {\n        \"descriptor\": {\n          \"code\": \"warehouse\"\n        }\n      },\n      \"item\": {\n        \"descriptor\": {\n          \"name\": \"none\"\n        }\n      },\n      \"fulfillment\": {\n        \"stops\": [\n          {\n            \"location\": {\n              \"gps\": \"10.7905, 78.7047\"\n            },\n            \"time\": {\n              \"range\": {\n                \"start\": \"2023-10-27T00:00:00Z\"\n              }\n            }\n          }\n        ]\n      }\n    }\n  }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/search",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"search"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://127.0.0.1:8000"
+		}
+	]
+}
