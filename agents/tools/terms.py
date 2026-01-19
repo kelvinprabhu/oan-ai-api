@@ -1,5 +1,6 @@
 import json
 from enum import Enum
+from typing import Optional
 from pydantic import BaseModel, Field
 from rapidfuzz import fuzz
 
@@ -27,7 +28,7 @@ def search_terms(
     text: str, 
     max_results: int = 5,
     similarity_threshold: float = 0.7,
-    language: Language = None
+    language: Optional[Language] = None
 ) -> str:
     """
     Search for terms using fuzzy partial string matching across all fields.

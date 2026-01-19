@@ -413,18 +413,19 @@ class WeatherRequest(BaseModel):
             }
         }
     
-def weather_forecast(latitude: float, longitude: float) -> str:
+def weather_forecast(latitude: float, longitude: float, days: int = 5) -> str:
     """Get Weather forecast for a specific location.
 
     Args:
         latitude (float): Latitude of the location
         longitude (float): Longitude of the location
+        days (int): Number of days to forecast. Between 1 and 10. Default is 5.
     
     Returns:
         str: The weather forecast for the specific location
     """    
     try:        
-        payload  = WeatherRequest(latitude=latitude, longitude=longitude).get_payload()
+        payload  = WeatherRequest(latitude=latitude, longitude=longitude, days=days).get_payload()
         response = requests.post(os.getenv("BAP_ENDPOINT"),
                                  json=payload,
                                  timeout=(10,15))

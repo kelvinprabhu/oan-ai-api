@@ -104,7 +104,7 @@ class Location(BaseModel):
         return f"{self.place_name} ({self.latitude}, {self.longitude})"
 
 
-def forward_geocode(place_name: str) -> Optional[Location]:
+def forward_geocode(place_name: str) -> Optional[str]:
     """Forward geocoding using Nominatim with local fallback."""
     # 1. Check Mock Data First
     clean_name = place_name.lower().strip()
@@ -112,11 +112,12 @@ def forward_geocode(place_name: str) -> Optional[Location]:
     for mock_name, coords in MOCK_LOCATIONS.items():
         if mock_name in clean_name:
             logger.info(f"Using Mock Location for: {place_name} -> {mock_name}")
-            return Location(
+            loc = Location(
                 place_name=place_name.title(), # Keep original casing if possible, or Title
                 latitude=coords[0],
                 longitude=coords[1]
             )
+            return str(loc)
 
     # 2. Try Online Geocoding
     if geocoder:
@@ -126,11 +127,12 @@ def forward_geocode(place_name: str) -> Optional[Location]:
             response = geocoder.geocode(place_name, exactly_one=True, addressdetails=True, country_codes='in')
 
             if response:
-                return Location(
+                loc = Location(
                     place_name=response.raw['display_name'],
                     latitude=response.latitude,
                     longitude=response.longitude
                 )
+                return str(loc)
             else:
                 logger.info(f"No results found for {place_name} via Nominatim.")
         except (GeocoderTimedOut, GeocoderServiceError) as e:
