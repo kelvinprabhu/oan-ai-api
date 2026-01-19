@@ -4,6 +4,7 @@ import os
 import re
 from typing import List, Dict
 import logging
+from logging.handlers import TimedRotatingFileHandler
 import boto3
 from dotenv import load_dotenv
 import base64
@@ -39,9 +40,28 @@ def get_logger(name):
     logger.setLevel(logging.DEBUG)
     formatter = logging.Formatter(
         '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    ch = logging.StreamHandler()
-    ch.setFormatter(formatter)
-    logger.addHandler(ch)
+
+    if not logger.handlers:
+        # Stream Handler
+        ch = logging.StreamHandler()
+        ch.setFormatter(formatter)
+        logger.addHandler(ch)
+
+        # File Handler
+        log_dir = "logs"
+        if not os.path.exists(log_dir):
+            os.makedirs(log_dir)
+
+        # Timed Rotating File Handler
+        fh = TimedRotatingFileHandler(
+            filename=os.path.join(log_dir, "app.log"),
+            when='midnight',
+            interval=1,
+            backupCount=30
+        )
+        fh.setFormatter(formatter)
+        logger.addHandler(fh)
+
     return logger
 
 def count_tokens_str(doc: str) -> int:
