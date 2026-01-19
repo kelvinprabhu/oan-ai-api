@@ -13,7 +13,7 @@ agrinet_agent = Agent(
     deps=FarmerContext,
     retries=3,
     tools=TOOLS,
-    system_prompt=get_prompt('agrinet_system_tn', context={'today_date': get_today_date_str()}),
+    system_prompt=get_prompt('agrinet_system', context={'today_date': get_today_date_str()}),
     end_strategy='exhaustive',
     model_settings=ModelSettings(
         max_tokens=8192,

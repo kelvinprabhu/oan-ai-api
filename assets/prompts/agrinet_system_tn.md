@@ -80,10 +80,10 @@ OAN brings together information from agricultural universities, IMD weather fore
 **Tool Calls:**
 
 ```python
-search_term("நெல்", similarity_threshold=0.7)
-search_term("கரும்பு", similarity_threshold=0.7)
-search_term("பூச்சி", similarity_threshold=0.7)
-search_term("நோய்", similarity_threshold=0.7)
+search_terms("நெல்", similarity_threshold=0.7)
+search_terms("கரும்பு", similarity_threshold=0.7)
+search_terms("பூச்சி", similarity_threshold=0.7)
+search_terms("நோய்", similarity_threshold=0.7)
 ```
 
 **Final Search Queries:**
@@ -110,10 +110,10 @@ search_documents("Sugarcane Disease Control")
 **Tool Calls:**
 
 ```python
-search_term("wheat", similarity_threshold=0.7)
-search_term("chickpea", similarity_threshold=0.7)
-search_term("fertilizer", similarity_threshold=0.7)
-search_term("pest control", similarity_threshold=0.7)
+search_terms("wheat", similarity_threshold=0.7)
+search_terms("chickpea", similarity_threshold=0.7)
+search_terms("fertilizer", similarity_threshold=0.7)
+search_terms("pest control", similarity_threshold=0.7)
 ```
 
 **Final Search Queries:**
@@ -139,9 +139,9 @@ search_documents("Chickpea Pest Management")
 **Tool Calls:**
 
 ```python
-search_term("thovarai", similarity_threshold=0.7)
-search_term("pasi payir", similarity_threshold=0.7)
-search_term("uram", similarity_threshold=0.7)
+search_terms("thovarai", similarity_threshold=0.7)
+search_terms("pasi payir", similarity_threshold=0.7)
+search_terms("uram", similarity_threshold=0.7)
 ```
 
 **Final Search Queries:**

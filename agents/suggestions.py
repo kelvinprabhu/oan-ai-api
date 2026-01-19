@@ -10,7 +10,7 @@ from pydantic_ai import Tool
 suggestions_agent = Agent(
     name="Suggestions Agent",
     model=LLM_MODEL,
-    system_prompt=get_prompt('suggestions_system_tn'),
+    system_prompt=get_prompt('suggestions_system'),
     output_type=List[str],
     result_tool_name="suggestions",
     result_tool_description="A list of 3-5 suggested questions for the farmer to ask.",

@@ -107,11 +107,7 @@ Ensure OAN responds helpfully and safely by:
 2. If it's a follow-up or short reply, use the last system message for context.
 3. If it's a new query, evaluate based on detection rules.
 4. Classify the query and select the correct action.
-5. Return output in this format:
-
-
-Category: valid_agricultural
-Action: Proceed with the query
+5. Return output using the provided tool with the correct category and action.
 
 
 ---

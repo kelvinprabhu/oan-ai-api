@@ -11,12 +11,32 @@
 			"item": [
 				{
 					"name": "1. Greeting",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response is a stream\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"text/event-stream\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
 								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "text/event-stream"
 							}
 						],
 						"body": {
@@ -39,12 +59,32 @@
 				},
 				{
 					"name": "2. Weather Query (Coimbatore)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response is a stream\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"text/event-stream\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
 								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "text/event-stream"
 							}
 						],
 						"body": {
@@ -67,12 +107,32 @@
 				},
 				{
 					"name": "3. Mandi Price Query (Tomato in Madurai)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response is a stream\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"text/event-stream\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
 								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "text/event-stream"
 							}
 						],
 						"body": {
@@ -95,12 +155,32 @@
 				},
 				{
 					"name": "4. Scheme Query (General)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response is a stream\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"text/event-stream\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
 								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "text/event-stream"
 							}
 						],
 						"body": {
@@ -123,12 +203,32 @@
 				},
 				{
 					"name": "5. Warehouse Query (Chennai)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response is a stream\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"text/event-stream\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
 								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "text/event-stream"
 							}
 						],
 						"body": {
@@ -143,6 +243,90 @@
 							"path": [
 								"api",
 								"chat",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "6. Get Suggestions",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"session_id\": \"{{$guid}}\",\n    \"target_lang\": \"en\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/suggest/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"suggest",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "7. Transcribe Audio (Base64)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"audio_content\": \"<base64_encoded_audio_here>\",\n    \"session_id\": \"{{$guid}}\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/transcribe/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"transcribe",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "8. Text to Speech",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"text\": \"Welcome to Open Agri Net.\",\n    \"lang_code\": \"en\",\n    \"session_id\": \"{{$guid}}\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/tts/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"tts",
 								""
 							]
 						}
@@ -262,6 +446,68 @@
 								"api",
 								"v1",
 								"search"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "System Health",
+			"item": [
+				{
+					"name": "1. Health Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/health/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"health",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2. Liveness Probe",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/health/live",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"health",
+								"live"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3. Readiness Probe",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/health/ready",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"health",
+								"ready"
 							]
 						}
 					},
