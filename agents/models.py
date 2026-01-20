@@ -32,10 +32,9 @@ def get_llm_model():
         )
         
     elif LLM_PROVIDER in ['groq']:
-        # Support both GROQ and GROK spelling in keys
-        api_key = os.getenv('GROQ_API_KEY') or os.getenv('GROK_API_KEY')
+        api_key = os.getenv('GROQ_API_KEY')
         if not api_key:
-            raise ValueError("GROQ_API_KEY (or GROK_API_KEY) is not set in environment variables")
+            raise ValueError("GROQ_API_KEY is not set in environment variables")
             
         return GroqModel(
             LLM_MODEL_NAME,
