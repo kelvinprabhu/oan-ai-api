@@ -234,11 +234,11 @@ class WarehouseRequest(BaseModel):
     """WarehouseRequest model for the warehouse API.
     
     Args:
-        latitude (float): Latitude of the location
-        longitude (float): Longitude of the location
+        latitude (float | str): Latitude of the location
+        longitude (float | str): Longitude of the location
     """
-    latitude: float = Field(..., description="Latitude of the location")
-    longitude: float = Field(..., description="Longitude of the location")
+    latitude: float | str = Field(..., description="Latitude of the location")
+    longitude: float | str = Field(..., description="Longitude of the location")
     
     def get_payload(self) -> Dict[str, Any]:
         """
@@ -295,12 +295,12 @@ class WarehouseRequest(BaseModel):
             }
         }
 
-def warehouse_data(latitude: float, longitude: float) -> str:
+def warehouse_data(latitude: float | str, longitude: float | str) -> str:
     """Get Warehouse data for a specific location.
 
     Args:
-        latitude (float): Latitude of the location
-        longitude (float): Longitude of the location
+        latitude (float | str): Latitude of the location
+        longitude (float | str): Longitude of the location
     
     Returns:
         str: The warehouse data for the specific location

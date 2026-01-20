@@ -46,24 +46,44 @@ async def stream_chat_messages(
     deps.update_moderation_str(str(moderation_data))
 
     # Run the main agent
-    async with agrinet_agent.run_stream(
-        user_prompt=deps.get_user_message(),
-        message_history=trim_history(
-            history,
-            max_tokens=60_000,
-            include_system_prompts=True,
-            include_tool_calls=True
-        ),
-        deps=deps,
-    ) as response_stream:  # response_stream is a StreamedRunResult
-        async for chunk in response_stream.stream_text(delta=True, debounce_by=0.1):
-            if chunk:  # Ensure non-empty chunks are yielded
-                yield chunk
-        
-        # After streaming is complete, get the run result for history
-        new_messages = response_stream.new_messages()
-        messages = [
-            *history,
-            *new_messages
-        ]
-        await update_message_history(session_id, messages)
+    try:
+        async with agrinet_agent.run_stream(
+            user_prompt=deps.get_user_message(),
+            message_history=trim_history(
+                history,
+                max_tokens=60_000,
+                include_system_prompts=True,
+                include_tool_calls=True
+            ),
+            deps=deps,
+        ) as response_stream:  # response_stream is a StreamedRunResult
+            async for chunk in response_stream.stream_text(delta=True, debounce_by=0.1): 
+                if chunk:  # Ensure non-empty chunks are yielded
+                    yield chunk
+            
+            # After streaming is complete, get the run result for history
+            new_messages = response_stream.new_messages()
+            messages = [
+                *history,
+                *new_messages
+            ]
+            await update_message_history(session_id, messages)
+
+    except Exception as e:
+        logger.error(f"Error during streaming for session {session_id}: {str(e)}")
+        # If it's a specific tool call error, we can try to fail gracefully
+        if "tool call validation failed" in str(e) or "attempted to call tool" in str(e):
+             logger.warning(f"Caught tool validation error, falling back to simple response: {e}")
+             fallback_msg = "I encountered a technical issue while searching for precise terms, but I will try to answer based on my general knowledge. "
+             yield fallback_msg
+             # Append a simple text message to history so conversation can continue
+             # Note: We can't easily reconstruction the 'partial' tool call that failed, 
+             # so we just add the assistant's fallback response.
+             messages = [
+                *history,
+                {"role": "user", "content": query}, # Ensure user query is recorded if not already
+                {"role": "model", "content": fallback_msg}
+            ]
+             await update_message_history(session_id, messages)
+        else:
+            raise e

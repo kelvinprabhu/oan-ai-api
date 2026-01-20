@@ -1,4 +1,4 @@
-from pydantic_ai import Agent
+from pydantic_ai import Agent, RunContext
 from helpers.utils import get_prompt, get_today_date_str
 from agents.models import LLM_MODEL
 from agents.tools import TOOLS
@@ -13,10 +13,13 @@ agrinet_agent = Agent(
     deps=FarmerContext,
     retries=3,
     tools=TOOLS,
-    system_prompt=get_prompt('agrinet_system', context={'today_date': get_today_date_str()}),
     end_strategy='exhaustive',
     model_settings=ModelSettings(
         max_tokens=8192,
         parallel_tool_calls=True,
    )
 )
+
+@agrinet_agent.system_prompt
+def get_system_prompt(ctx: RunContext[FarmerContext]) -> str:
+    return get_prompt('agrinet_system', context={'today_date': get_today_date_str()})

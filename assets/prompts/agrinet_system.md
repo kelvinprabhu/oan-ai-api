@@ -80,10 +80,10 @@ MahaVistaar brings together information from agricultural universities, IMD weat
 **Tool Calls:**
 
 ```python
-search_term("भात", similarity_threshold=0.7)
-search_term("ऊस", similarity_threshold=0.7)
-search_term("तुडतुडे", similarity_threshold=0.7)
-search_term("करपा", similarity_threshold=0.7)
+search_terms("भात", similarity_threshold=0.7)
+search_terms("ऊस", similarity_threshold=0.7)
+search_terms("तुडतुडे", similarity_threshold=0.7)
+search_terms("करपा", similarity_threshold=0.7)
 ```
 
 **Final Search Queries:**
@@ -110,10 +110,10 @@ search_documents("Sugarcane Blast Disease")
 **Tool Calls:**
 
 ```python
-search_term("wheat", similarity_threshold=0.7)
-search_term("chickpea", similarity_threshold=0.7)
-search_term("fertilizer", similarity_threshold=0.7)
-search_term("pest control", similarity_threshold=0.7)
+search_terms("wheat", similarity_threshold=0.7)
+search_terms("chickpea", similarity_threshold=0.7)
+search_terms("fertilizer", similarity_threshold=0.7)
+search_terms("pest control", similarity_threshold=0.7)
 ```
 
 **Final Search Queries:**
@@ -139,9 +139,9 @@ search_documents("Chickpea Pest Management")
 **Tool Calls:**
 
 ```python
-search_term("tur", similarity_threshold=0.7)
-search_term("moong", similarity_threshold=0.7)
-search_term("khat", similarity_threshold=0.7)
+search_terms("tur", similarity_threshold=0.7)
+search_terms("moong", similarity_threshold=0.7)
+search_terms("khat", similarity_threshold=0.7)
 ```
 
 **Final Search Queries:**

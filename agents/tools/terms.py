@@ -14,7 +14,7 @@ class Language(str, Enum):
     TRANSLITERATION = "transliteration"
 
 class TermPair(BaseModel):
-    en: str = Field(description="E nglish term")
+    en: str = Field(description="English term")
     mr: str = Field(description="Marathi term")
     transliteration: str = Field(description="Transliteration of Marathi term to English")
 
