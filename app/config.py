@@ -37,16 +37,17 @@ class Settings(BaseSettings):
     uvicorn_workers: int = os.cpu_count() or 1
 
     # Redis Settings
-    redis_host: str = "localhost"
-    redis_port: int = 6379
-    redis_db: int = 0
-    redis_key_prefix: str = "sva-cache-"
+    redis_host: str = os.getenv("REDIS_HOST", "localhost")
+    redis_port: int = int(os.getenv("REDIS_PORT", "6379"))
+    redis_db: int = int(os.getenv("REDIS_DB", "0"))
+    redis_key_prefix: str = os.getenv("REDIS_KEY_PREFIX", "oan-ai-")
     redis_socket_connect_timeout: int = 10
     redis_socket_timeout: int = 10
     redis_max_connections: int = 100
     redis_retry_on_timeout: bool = True
 
     # Cache Configuration
+    cache_type: str = os.getenv("CACHE_TYPE", "redis")  # "redis" or "memory"
     default_cache_ttl: int = 60 * 60 * 24  # 24 hours
     suggestions_cache_ttl: int = 60 * 30    # 30 minutes
 
