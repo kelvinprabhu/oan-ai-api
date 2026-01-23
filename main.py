@@ -79,6 +79,16 @@ def create_app() -> FastAPI:
         logger.info("ROOT endpoint hit")
         return {"status": "ok", "app": "MahaVistaar AI API"}
     
+    # Azure Function host internal endpoints to stop 404 noise in logs
+    @app.post("/admin/host/synctriggers")
+    @app.get("/admin/host/synctriggers")
+    async def azure_sync_triggers():
+        return {"status": "success"}
+
+    @app.api_route("/admin/host/{path:path}", methods=["GET", "POST", "PUT", "DELETE"])
+    async def azure_host_proxy(path: str):
+        return {"status": "ok", "path": path}
+    
     return app
 
 # Create the app instance

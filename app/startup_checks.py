@@ -37,7 +37,7 @@ async def verify_marqo():
     index_name = settings.marqo_index_name or "oan-index"
     
     if not endpoint:
-        logger.warning("⚠️ Marqo DB: Endpoint URL not configured (MARQO_ENDPOINT_URL missing).")
+        logger.warning("Marqo DB: Endpoint URL not configured (MARQO_ENDPOINT_URL missing).")
         return
 
     try:
