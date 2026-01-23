@@ -30,20 +30,20 @@ async def lifespan(app: FastAPI):
     async def check_cache():
         try:
             await cache.set("health_check", "ok", ttl=60)
-            logger.info("✅ Cache connection successful")
+            logger.info("Cache connection successful")
         except Exception as e:
-            logger.warning(f"⚠️ Cache connection failed: {str(e)}")
+            logger.warning(f"Cache connection failed: {str(e)}")
 
     import asyncio
     asyncio.create_task(check_cache())
     
-    logger.info("✅ Application startup complete")
+    logger.info("Application startup complete")
     
     yield
     
     # Shutdown
     logger.info("Shutting down MahaVistaar AI API...")
-    logger.info("✅ Application shutdown complete")
+    logger.info("Application shutdown complete")
 
 def create_app() -> FastAPI:
     """
