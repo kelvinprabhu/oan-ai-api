@@ -12,11 +12,11 @@ async def verify_redis(cache_instance):
         await cache_instance.set("health_check", "ok", ttl=60)
         test_value = await cache_instance.get("health_check")
         if test_value == "ok":
-            logger.info("✅ Redis: Connection successful")
+            logger.info("Redis: Connection successful")
         else:
-            logger.warning("⚠️ Redis: Connection issue - values not persisting correctly")
+            logger.warning("Redis: Connection issue - values not persisting correctly")
     except Exception as e:
-        logger.error(f"❌ Redis: Connection failed: {str(e)}")
+        logger.error(f"Redis: Connection failed: {str(e)}")
 
 async def verify_llm():
     """Verify LLM Configuration"""
@@ -25,11 +25,11 @@ async def verify_llm():
         # though agents.models is likely already imported by routers.
         # This also acts as a check if the module loaded correctly.
         from agents.models import LLM_PROVIDER, LLM_MODEL_NAME
-        logger.info(f"✅ LLM: Configured with Provider='{LLM_PROVIDER}', Model='{LLM_MODEL_NAME}'")
+        logger.info(f"LLM: Configured with Provider='{LLM_PROVIDER}', Model='{LLM_MODEL_NAME}'")
     except ImportError as e:
-        logger.error(f"❌ LLM: Failed to import configuration. Error: {e}")
+        logger.error(f"LLM: Failed to import configuration. Error: {e}")
     except Exception as e:
-        logger.error(f"❌ LLM: Verification failed. Error: {e}")
+        logger.error(f"LLM: Verification failed. Error: {e}")
 
 async def verify_marqo():
     """Verify Marqo DB connection and data existence"""
@@ -85,14 +85,14 @@ async def verify_marqo():
         
         if exists:
             if doc_count > 0:
-                logger.info(f"✅ Marqo DB: Connected. Index '{index_name}' active with {doc_count} documents.")
+                logger.info(f"Marqo DB: Connected. Index '{index_name}' active with {doc_count} documents.")
             else:
-                 logger.warning(f"⚠️ Marqo DB: Connected. Index '{index_name}' exists but is EMPTY.")
+                 logger.warning(f"Marqo DB: Connected. Index '{index_name}' exists but is EMPTY.")
         else:
-            logger.warning(f"⚠️ Marqo DB: Connected, but index '{index_name}' NOT FOUND. Available indexes: {all_indexes}")
+            logger.warning(f"Marqo DB: Connected, but index '{index_name}' NOT FOUND. Available indexes: {all_indexes}")
 
     except Exception as e:
-        logger.error(f"❌ Marqo DB: Connection check failed. Error: {e}")
+        logger.error(f"Marqo DB: Connection check failed. Error: {e}")
 
 async def verify_nominatim():
     """Verify Nominatim (Maps) service"""
@@ -121,12 +121,12 @@ async def verify_nominatim():
         location = await loop.run_in_executor(None, _test_nominatim)
         
         if location:
-            logger.info(f"✅ Nominatim: Service operational. Test location resolved to: {location.address.split(',')[0]}")
+            logger.info(f"Nominatim: Service operational. Test location resolved to: {location.address.split(',')[0]}")
         else:
-            logger.warning("⚠️ Nominatim: Connected but returned no result for test coordinates.")
+            logger.warning("Nominatim: Connected but returned no result for test coordinates.")
             
     except Exception as e:
-        logger.error(f"❌ Nominatim: Service check failed. Error: {e}")
+        logger.error(f"Nominatim: Service check failed. Error: {e}")
 
 async def perform_startup_checks(cache_instance):
     """Execute all startup verifications"""

@@ -9,7 +9,7 @@ __pycache__/
 # Google Cloud
 *credentials.json
 *jwt_public_key.pem
-
+ start.sh
 # C extensions
 *.so
 *.DS_Store
