@@ -3,33 +3,34 @@ fastapi
 uvicorn[standard]
 gunicorn
 asgiref
+azure-functions
+pydantic-settings
+pydantic[email]
 
 # Core Dependencies
 python-dotenv
 requests
 httpx
 tenacity
+python-dateutil
 
 # Data Handling
 pandas
 simplejson
 openpyxl
 
-# Database (if needed for future use)
+# Database
 sqlalchemy
 psycopg2-binary==2.9.9
-psycopg[pool]==3.2.6   # for connection pooling
+psycopg[pool]==3.2.6
 
 # LLM & AI
 openai
 pydantic==2.11.4
 pydantic-ai==0.2.3
-pydantic-ai-slim[groq]
-pydantic-settings
 tiktoken
 marqo==3.11.0
 rapidfuzz
-groq
 
 # Logfire
 logfire
@@ -44,7 +45,8 @@ cryptography
 
 # Language and Localization
 langcodes
-language-data==1.4.0
+language_data
+
 # Template Engine
 jinja2
 

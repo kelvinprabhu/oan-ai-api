@@ -13,7 +13,6 @@ from app.config import settings
 from app.routers import chat_router, suggestions_router, transcribe_router, tts_router
 from app.routers.health import router as health_router
 from app.core.cache import cache
-from app.startup_checks import perform_startup_checks
 from helpers.utils import get_logger
 
 logger = get_logger(__name__)
@@ -27,8 +26,16 @@ async def lifespan(app: FastAPI):
     # Startup
     logger.info("Starting up MahaVistaar AI API...")
     
-    # Perform system verification checks
-    await perform_startup_checks(cache)
+    # Cache connection check moved to background to prevent startup blocking
+    async def check_cache():
+        try:
+            await cache.set("health_check", "ok", ttl=60)
+            logger.info("✅ Cache connection successful")
+        except Exception as e:
+            logger.warning(f"⚠️ Cache connection failed: {str(e)}")
+
+    import asyncio
+    asyncio.create_task(check_cache())
     
     logger.info("✅ Application startup complete")
     
@@ -66,6 +73,11 @@ def create_app() -> FastAPI:
     app.include_router(transcribe_router, prefix=settings.api_prefix)
     app.include_router(tts_router, prefix=settings.api_prefix)
     app.include_router(health_router, prefix=settings.api_prefix)
+    
+    @app.get("/")
+    async def root():
+        logger.info("ROOT endpoint hit")
+        return {"status": "ok", "app": "MahaVistaar AI API"}
     
     return app
 
