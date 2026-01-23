@@ -80,12 +80,19 @@ def create_app() -> FastAPI:
         return {"status": "ok", "app": "MahaVistaar AI API"}
     
     # Azure Function host internal endpoints to stop 404 noise in logs
-    @app.post("/admin/host/synctriggers")
-    @app.get("/admin/host/synctriggers")
+    # include_in_schema=False avoids duplicate Operation ID warnings and hides internal routes
+    @app.post("/admin/host/synctriggers", include_in_schema=False)
+    @app.get("/admin/host/synctriggers", include_in_schema=False)
     async def azure_sync_triggers():
         return {"status": "success"}
 
-    @app.api_route("/admin/host/{path:path}", methods=["GET", "POST", "PUT", "DELETE"])
+    @app.get("/admin/functions", include_in_schema=False)
+    @app.get("/admin/functions/", include_in_schema=False)
+    async def azure_get_functions():
+        # Returns an empty list to satisfy Azure Function host's check
+        return []
+
+    @app.api_route("/admin/host/{path:path}", methods=["GET", "POST", "PUT", "DELETE"], include_in_schema=False)
     async def azure_host_proxy(path: str):
         return {"status": "ok", "path": path}
     
