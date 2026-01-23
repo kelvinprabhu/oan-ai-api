@@ -28,7 +28,7 @@ def search_terms(
     text: str, 
     max_results: int = 5,
     similarity_threshold: float = 0.7,
-    language: Optional[Language] = None
+    language: Optional[str] = None
 ) -> str:
     """
     Search for terms using fuzzy partial string matching across all fields.

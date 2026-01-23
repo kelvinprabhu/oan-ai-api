@@ -29,7 +29,7 @@ def get_llm_model():
         return GeminiModel(
             LLM_MODEL_NAME,
             provider=GoogleGLAProvider(api_key=api_key)
-        )
+        )   
         
     elif LLM_PROVIDER in ['groq']:
         api_key = os.getenv('GROQ_API_KEY')

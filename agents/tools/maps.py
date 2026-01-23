@@ -11,9 +11,10 @@ logger = get_logger(__name__)
 load_dotenv()
 
 # Initialize Nominatim geocoder (self-hosted)
+# Initialize Nominatim geocoder (self-hosted)
 geocoder = Nominatim(
     user_agent="bharathvistaar", 
-    domain="nominatim:8080",
+    domain=os.getenv('NOMINATIM_DOMAIN', "nominatim:8080"),
     scheme="http",
     timeout=10
 )

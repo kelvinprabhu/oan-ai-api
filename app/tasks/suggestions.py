@@ -27,6 +27,32 @@ async def create_suggestions(session_id: str, target_lang: str = 'mr'):
     message       = f"**Conversation**\n\n{message_pairs}\n\n**Based on the conversation, suggest 3-5 questions the farmer can ask in {target_lang_name}.**"
     agent_run    = await suggestions_agent.run(message)
     suggestions = [x for x in agent_run.output]
+    
+    # Log Suggestions Agent Usage
+    sugg_usage = agent_run.usage()
+    
+    # Extract tool usage if any
+    new_messages = agent_run.new_messages()
+    tool_calls = [
+        msg for msg in new_messages 
+        if hasattr(msg, 'parts') and any(part.part_kind == 'tool-call' for part in msg.parts)
+    ]
+    tool_usage_details = []
+    for tc in tool_calls:
+         for part in tc.parts:
+             if part.part_kind == 'tool-call':
+                 tool_usage_details.append(f"{part.tool_name} (args: {part.args})")
+
+    tool_hits_str = "\n    - ".join(tool_usage_details) if tool_usage_details else "None"
+    
+    logger.info(
+        f"\n[Suggestions Agent Usage] Session: {session_id}\n"
+        f"  Input Tokens: {sugg_usage.request_tokens}\n"
+        f"  Output Tokens: {sugg_usage.response_tokens}\n"
+        f"  Total Tokens: {sugg_usage.total_tokens}\n"
+        f"  Tool Hits:\n    - {tool_hits_str}"
+    )
+
     logger.info(f"Suggestions: {suggestions}")
     # Store suggestions in cache
     await cache.set(f"suggestions_{session_id}_{target_lang}", suggestions, ttl=SUGGESTIONS_CACHE_TTL)

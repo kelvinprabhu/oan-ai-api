@@ -13,6 +13,7 @@ from app.config import settings
 from app.routers import chat_router, suggestions_router, transcribe_router, tts_router
 from app.routers.health import router as health_router
 from app.core.cache import cache
+from app.startup_checks import perform_startup_checks
 from helpers.utils import get_logger
 
 logger = get_logger(__name__)
@@ -26,16 +27,8 @@ async def lifespan(app: FastAPI):
     # Startup
     logger.info("Starting up MahaVistaar AI API...")
     
-    # Test cache connection
-    try:
-        await cache.set("health_check", "ok", ttl=60)
-        test_value = await cache.get("health_check")
-        if test_value == "ok":
-            logger.info("✅ Cache connection successful")
-        else:
-            logger.warning("⚠️ Cache connection issue - values not persisting correctly")
-    except Exception as e:
-        logger.error(f"❌ Cache connection failed: {str(e)}")
+    # Perform system verification checks
+    await perform_startup_checks(cache)
     
     logger.info("✅ Application startup complete")
     

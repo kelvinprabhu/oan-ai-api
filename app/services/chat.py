@@ -43,6 +43,15 @@ async def stream_chat_messages(
     moderation_run = await moderation_agent.run(user_message)
     moderation_data = moderation_run.output
     
+    # Log Moderation Agent Usage
+    mod_usage = moderation_run.usage()
+    logger.info(
+        f"\n[Moderation Agent Usage] Session: {session_id}\n"
+        f"  Input Tokens: {mod_usage.request_tokens}\n"
+        f"  Output Tokens: {mod_usage.response_tokens}\n"
+        f"  Total Tokens: {mod_usage.total_tokens}"
+    )
+
     deps.update_moderation_str(str(moderation_data))
 
     # Run the main agent
@@ -63,6 +72,31 @@ async def stream_chat_messages(
             
             # After streaming is complete, get the run result for history
             new_messages = response_stream.new_messages()
+            
+            # Log Agrinet Agent Usage
+            main_usage = response_stream.usage()
+            
+            # Helper to extract tool calls from new messages
+            tool_calls = [
+                msg for msg in new_messages 
+                if hasattr(msg, 'role') and msg.role == 'model' and hasattr(msg, 'parts') and any(part.part_kind == 'tool-call' for part in msg.parts)
+            ]
+            tool_usage_details = []
+            for tc in tool_calls:
+                 for part in tc.parts:
+                     if part.part_kind == 'tool-call':
+                         tool_usage_details.append(f"{part.tool_name} (args: {part.args})")
+
+            tool_hits_str = "\n    - ".join(tool_usage_details) if tool_usage_details else "None"
+
+            logger.info(
+                f"\n[Vistaar Agent Usage] Session: {session_id}\n"
+                f"  Input Tokens: {main_usage.request_tokens}\n"
+                f"  Output Tokens: {main_usage.response_tokens}\n"
+                f"  Total Tokens: {main_usage.total_tokens}\n"
+                f"  Tool Hits:\n    - {tool_hits_str}"
+            )
+
             messages = [
                 *history,
                 *new_messages

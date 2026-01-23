@@ -89,7 +89,7 @@ def main():
     try:
         # Note: tensor_fields is optional if defined in settings, but explicitly passing it is often safer if unsure of version match
         # However, relying on the settings 'tensorFields' is the clean way.
-        res = mq.index(INDEX_NAME).add_documents(documents=documents, tensor_fields=["text"])
+        res = mq.index(INDEX_NAME).add_documents(documents=documents)
         print(f"Ingestion response: {res}")
     except Exception as e:
         print(f"Error ingesting documents: {e}")

@@ -21,11 +21,18 @@ class QueryModerationResult(BaseModel):
         category_str = self.category.replace("_", " ").title()
         return f"**Moderation Recommendation:** {self.action} ({category_str})"
 
+from agents.models import LLM_MODEL, LLM_PROVIDER
+
+# Determine prompt file based on provider
+prompt_file = 'moderation_system_groq' if LLM_PROVIDER == 'groq' else 'moderation_system'
+
 moderation_agent = Agent(
     model=LLM_MODEL,
     name="Moderation Agent",
-    system_prompt=get_prompt('moderation_system'),
+    system_prompt=get_prompt(prompt_file),
     output_type=QueryModerationResult,
+    result_tool_name="moderation_result",
+    result_tool_description="Submit the moderation result.",
     retries=2,
     model_settings=ModelSettings(
         # max_tokens=350,  # Increased slightly to ensure complete reasoning + category
