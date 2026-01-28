@@ -7,7 +7,7 @@ on:
       - main
       - devops
   workflow_dispatch:
-
+##fetch others from environment variables
 env:
   ACR_LOGIN_SERVER: oanmockserver.azurecr.io
   ACR_USERNAME: oanmockserver
