@@ -12,7 +12,7 @@ env:
   ACR_LOGIN_SERVER: oanmockserver.azurecr.io
   ACR_USERNAME: oanmockserver
   IMAGE_NAME: oan-ai-api
-  AZURE_FUNCTIONAPP_NAME: oan-ai-function
+  AZURE_CONTAINERAPP_NAME: oan-ai-function
 
 jobs:
   build-and-deploy:
@@ -52,11 +52,12 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name:  Update Azure Function App Container
+    - name:  Update Azure Container App
       run: |
         set -e
-        az functionapp config container set \
-          --name ${{ env.AZURE_FUNCTIONAPP_NAME }} \
+        az extension add --name containerapp --upgrade
+        az containerapp update \
+          --name ${{ env.AZURE_CONTAINERAPP_NAME }} \
           --resource-group OAN-Org \
           --image ${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
 
@@ -70,4 +71,4 @@ jobs:
       run: |
         set -e
         echo "Image pushed to ACR: ${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:latest"
-        echo "Azure Function deployment command executed for: ${{ env.AZURE_FUNCTIONAPP_NAME }}"
+        echo "Azure Container App deployment command executed for: ${{ env.AZURE_CONTAINERAPP_NAME }}"
